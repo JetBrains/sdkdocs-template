@@ -57,3 +57,4 @@ task :preview => [:prepare_env, :prepare_assets] do
   sh "bundle exec jekyll serve --trace --config #{@relative_dir}/jekyll/_config-defaults.yml,_config.yml --host=#{host} --port=#{port} #{force_polling} --destination=#{dest}"
 
 end
+
