@@ -14,6 +14,13 @@ Jekyll requires Ruby, so make sure Ruby is installed. This repo makes use of [Bu
 
 1. Install Bundler - `gem install bundler`.
 2. Add this repo as a submodule of your documentation site.
+
+    ```
+    git submodule add https://github.com/JetBrains/sdkdocs-template.git sdkdocs-template
+    ```
+
+    This will create a `.gitmodules` file in the root folder. This needs to be committed.
+
 3. Add a `Rakefile` to your documentation site. This simply includes the rake files defined in this `sdkdocs-template` repo, and overrides config used by the rake scripts and Jekyll. A good example is:
 
     ```ruby
@@ -56,7 +63,7 @@ Jekyll requires Ruby, so make sure Ruby is installed. This repo makes use of [Bu
     ```
 
     The `_site` folder is the generated site that is ready to be tested and deployed, and the `_includes` folder is unfortunately a Jekyll artifact that can't be redirected to another location. It can be safely ignored while working on the documentation. The `.bundle` folder contains configuration details for Bundler, and shouldn't be committed.
-7. Commit the new files to source control - `Gemfile`, `Gemfile.lock`, `Rakefile`, `_config.yml` and the `sdkdocs-template` sub module.
+7. Commit the new files to source control - `Gemfile`, `Gemfile.lock`, `Rakefile`, `_config.yml` and `.gitmodules` and `sdkdocs-template`.
 
 ## How to build and test the site
 
@@ -215,3 +222,19 @@ When a Markdown header is converted to an HTML header, it is assigned an ID, so 
 ## Bundler
 
 The Rake files hide away any Bundler details, but if you add any 
+
+## Submodules
+
+This repo is supposed to be used as a submodule, and contains a submodule to the private `webhelp-template` repo (`webhelp-template` is the JS and CSS for the documentation site, `sdkdocs-template` provides scripts to make it easier to set up and maintain a documentation site using the webhelp template).
+
+Adding a submodule is done by something like:
+
+    ```
+    git submodule add git@git.labs.intellij.net:sites/webhelp-template.git webhelp-template
+    ```
+
+This will create a `.gitmodules` file, register a submodule in the `webhelp-template` folder, and check out the files. (Note that when a repo is added as a submodule, it doesn't get a `.git` folder, but instead gets a `.git` file that points to the location of the `.git` folder.
+
+A submodule can be updated using normal git commands such as `git pull`. It can be switched to a different branch using `git checkout`, and any changes to the currently checked out revision need to be committed back into the main repo, as normal git commands.
+
+Note that this repo currently uses the `resharper-devguide` of the `webhelp-template` submodule, which contains minor updates over the default webhelp template (the ability to have "placeholder" nodes in the table of contents).
