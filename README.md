@@ -19,7 +19,7 @@ Jekyll requires Ruby, so make sure Ruby is installed. This repo makes use of [Bu
     git submodule add https://github.com/JetBrains/sdkdocs-template.git sdkdocs-template
     ```
 
-    This will create a `.gitmodules` file in the root folder. This needs to be committed.
+    This will create a `.gitmodules` file in the root folder. This needs to be committed. Ensure that the `sdkdocs-template` folder is populated. If it isn't, run `git submodule init` and `git submodule update`.
 
 3. Add a `Rakefile` to your documentation site. This simply includes the rake files defined in this `sdkdocs-template` repo, and overrides config used by the rake scripts and Jekyll. A good example is:
 
@@ -105,6 +105,8 @@ The `CONTRIBUTING.md` file should provide information on how to contribute, incl
 
 * Clone
 * Update submodules
+    * `git submodule init`
+    * `git submodule update`
 * Install Ruby and `gem install bundler`
 * `rake bootstrap`
 * `rake preview`
@@ -235,6 +237,6 @@ Adding a submodule is done by something like:
 
 This will create a `.gitmodules` file, register a submodule in the `webhelp-template` folder, and check out the files. (Note that when a repo is added as a submodule, it doesn't get a `.git` folder, but instead gets a `.git` file that points to the location of the `.git` folder.
 
-A submodule can be updated using normal git commands such as `git pull`. It can be switched to a different branch using `git checkout`, and any changes to the currently checked out revision need to be committed back into the main repo, as normal git commands.
+A submodule can be updated using normal git commands such as `git pull`. It can be switched to a different branch using `git checkout`, and any changes to the currently checked out revision need to be committed back into the main repo, as normal git commands. It is initially cloned at a specific revision, and not as part of a branch.update
 
 Note that this repo currently uses the `resharper-devguide` of the `webhelp-template` submodule, which contains minor updates over the default webhelp template (the ability to have "placeholder" nodes in the table of contents).
