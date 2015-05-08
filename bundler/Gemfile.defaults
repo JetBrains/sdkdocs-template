@@ -1,0 +1,11 @@
+source "https://rubygems.org"
+
+# Include this file in your Gemfile by calling eval File.read('sdkdocs-template/bundler/Gemfile.defaults')
+
+gem 'rake'
+gem 'jekyll'
+
+group :jekyll_plugins do
+  gem 'jekyll-redirect-from'
+  gem 'jekyll-git_metadata'
+end

@@ -1,0 +1,75 @@
+---
+product_name: MyProduct
+#product_version: 1.0
+product_type: Web Help
+
+# Specify the base url of the site. This is the path to the root of the site once
+# it's been deployed. MUST have a trailing slash. Root should be '/'
+baseurl: /devguide-test/
+
+# =============================================================================
+#
+# Everything above here is expected to be overridden in _config.yml
+# Everything below should be left alone, but CAN be overridden if necessary
+# Note that anything being overridden doesn't get processed for env vars, etc.
+#
+# =============================================================================
+
+# Used by the TOC generator plugin.
+# Input and output files for generating the TOC.
+# Defaults are _SUMMARY.md and HelpTOC.json
+toc_input: _SUMMARY.md
+toc_output: HelpTOC.json
+
+# Make sure we require the plugins. We could just let the jekyll_plugins group
+# in Gemfile handle this, but that needs to be specified in the documentation
+# site's root, and might get forgotten. Specifying them here fails if we've not
+# set bundler up
+# gems: [jekyll-git_metadata, jekyll-redirect-from]
+
+# It's a shame we can't change the location of _includes via config
+# Also, these assume you've got this subrepo mounted as sdkdocs-template.
+# If you don't, override in the _config.yml
+plugins: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/plugins
+layouts: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/layouts
+
+# Do not copy these files
+exclude:
+  - Rakefile
+  - Gemfile
+  - Gemfile.lock
+  - sdkdocs-template
+
+# Use the CustomKramdownParser jekyll plugin
+markdown: CustomKramdownParser
+
+# Options for the custom kramdown parser
+# * Use GFM2, which parses GitHub Flavour Markup, including code fences, but adds support for
+#   line highlighting a code fence, e.g. ```csharp{1 23} ... ```
+# * Set the TOC levels - display h2-h6 only
+# * Use the pygments highlighter for GFM code fences
+kramdown:
+  input: GFM2
+  hard_wrap: false
+  auto_ids: false
+  toc_levels: 2..6
+  syntax_highlighter: pygments
+
+# Use pygments for syntax highlighting {% highlight ruby %}...{% endhighlight %} snippets.
+# The custom kramdown parser understands GFM code fences and internally uses pygments,
+# this just uses the same parser for liquid tags as GFM code fences
+highlighter: pygments
+
+# Copy the following static files
+static_files:
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/js/main.build.js": "app/js/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/js/vendor/requirejs/require.js": "app/js/vendor/requirejs/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/css/styles.min.css": "app/css/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/fonts/*": "app/fonts/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/img/svg/*": "app/img/svg/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/favicon.*": "/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/*.png": "/"
+
+defaults:
+  - values:
+      layout: 'webhelp'
