@@ -212,14 +212,14 @@ The site is also configured to highlight a range of files in the source code, by
 
 Notes and callouts can be specified using the blockquote syntax. The converter will look at the first following word to see if it is bold. If so, it will apply that as a callout style. For example:
 
-    > *NOTE* This is a note
+    > **NOTE** This is a note
 
 Will be displayed as a callout, styled as a "note". The other styles available for callouts are "note", "warning", "tip" and "todo".:w
 
 
 ### Linking to headers
 
-When a Markdown header is converted to an HTML header, it is assigned an ID, so it can be linked, e.g. `## Introduction` will get the ID of `introduction`, and can be linked either in the same page `[click here](#introduction)` or cross page `[click here](page.html#introduction)`.
+When a Markdown header is converted to an HTML header, it is assigned an ID, so it can be linked, e.g. `## Introduction` will get the ID of `introduction`, and can be linked either in the same page `[click here](#introduction)` or cross page `[click here](page.html#introduction)`. The anchor name will be all lower case, and spaces are replaced with `-`, e.g. `## Page setup` becomes `#page-setup`.
 
 ## Bundler
 
@@ -227,7 +227,7 @@ The Rake files hide away any Bundler details, but if you add any
 
 ## Submodules
 
-This repo is supposed to be used as a submodule, and contains a submodule to the private `webhelp-template` repo (`webhelp-template` is the JS and CSS for the documentation site, `sdkdocs-template` provides scripts to make it easier to set up and maintain a documentation site using the webhelp template).
+This repo is supposed to be used as a submodule, and it also contains a submodule to the private `webhelp-template` repo (`webhelp-template` is the JS and CSS for the documentation site, `sdkdocs-template` provides scripts to make it easier to set up and maintain a documentation site using the webhelp template). The `webhelp-template` is currently closed source. The current plan is to make it open source, in which case, it is likely the two repos are merged.
 
 Adding a submodule is done by something like:
 
@@ -239,4 +239,4 @@ This will create a `.gitmodules` file, register a submodule in the `webhelp-temp
 
 A submodule can be updated using normal git commands such as `git pull`. It can be switched to a different branch using `git checkout`, and any changes to the currently checked out revision need to be committed back into the main repo, as normal git commands. It is initially cloned at a specific revision, and not as part of a branch.update
 
-Note that this repo currently uses the `resharper-devguide` of the `webhelp-template` submodule, which contains minor updates over the default webhelp template (the ability to have "placeholder" nodes in the table of contents).
+Note that this repo currently uses the `resharper-devguide` branch of the `webhelp-template` submodule, which contains minor updates over the default webhelp template (e.g. the ability to have "placeholder" nodes in the table of contents).
