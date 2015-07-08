@@ -34,7 +34,7 @@ desc 'Ensure assets are in the right place for a build'
 task :prepare_assets => [:prepare_env, :prepare_webhelp] do
   # Copy _includes/page.html to the site source. Jekyll doesn't allow us to move this
   RakeFileUtils.mkdir_p '_includes'
-  RakeFileUtils.cp "#{@relative_dir}/webhelp/jekyll/page.html", '_includes/page.html'
+  RakeFileUtils.cp "#{@relative_dir}/webhelp/jekyll/templates/page.html", '_includes/page.html'
 end
 
 desc 'Build the site, without starting the server.'
