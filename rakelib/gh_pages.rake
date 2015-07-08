@@ -1,4 +1,4 @@
-# Shamelessly stolen and tweaked from https://github.com/chikathreesix/jekyll-gh-pages
+# Shamelessly stolen and tweaked from https://github.com/chikathreesix/jekyll-gh-pages (MIT)
 require 'fileutils'
 
 remote_name = ENV.fetch("REMOTE_NAME", "origin")

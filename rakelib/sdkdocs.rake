@@ -5,6 +5,13 @@ task :default do
   system('rake -T')
 end
 
+desc 'Bootstraps the build environment with bundler. Only needed to run once.'
+task :bootstrap => [:prepare_env] do
+  RakeFileUtils.cp 'sdkdocs-template/bundler/Gemfile.template', 'Gemfile' unless File.exists?('Gemfile')
+  sh "bundle install --path sdkdocs-template/_vendor/bundle"
+end
+
+desc ''
 task :prepare_env do
   dir = Pathname.new("#{__dir__}/..").cleanpath
   relative_dir = dir.relative_path_from(Pathname.new(Dir.pwd))
@@ -24,28 +31,22 @@ task :prepare_env do
   end
 end
 
-desc 'Bootstrap'
-task :bootstrap => [:prepare_env] do
-  RakeFileUtils.cp 'sdkdocs-template/bundler/Gemfile.template', 'Gemfile' unless File.exists?('Gemfile')
-  sh "bundle install --path sdkdocs-template/_vendor/bundle"
+desc 'Ensure assets are in the right place for a build'
+task :prepare_assets => [:prepare_env] do
+  # Copy _includes/page.html to the site source. Jekyll doesn't allow us to move this
+  # TODO: Work when webhelp-template isn't there
+  RakeFileUtils.mkdir_p '_includes'
+  RakeFileUtils.cp "#{@relative_dir}/webhelp-template/app/templates/page.html", '_includes/page.html'
 end
 
-desc 'Build docs'
+desc 'Build the site, without starting the server.'
 task :build => [:prepare_env, :prepare_assets] do
   dest = ENV['dest'] || CONFIG[:build_destination]
 
   sh "bundle exec jekyll build --trace --config #{@relative_dir}/jekyll/_config-defaults.yml,_config.yml --destination=#{dest}"
 end
 
-desc 'Preparing assets'
-task :prepare_assets => [:prepare_env] do
-  # Sadly, we can't have this sitting in sdkdocs-template
-    # TODO: Work when webhelp-template isn't there
-  RakeFileUtils.mkdir_p '_includes'
-  RakeFileUtils.cp "#{@relative_dir}/webhelp-template/app/templates/page.html", '_includes/page.html'
-end
-
-desc "Runs site on a local preview webserver"
+desc 'Builds and hosts the site.'
 task :preview => [:prepare_env, :prepare_assets] do
   host = ENV['host'] || CONFIG[:preview_host]
   port = ENV['port'] || CONFIG[:preview_port]
