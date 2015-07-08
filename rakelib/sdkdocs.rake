@@ -22,8 +22,7 @@ task :prepare_env do
   # of the jekyll files in the sdkdocs-template folder relative to the base folder
   ENV['_sdkdocs_template_dir'] = @root_dir
 
-  # TODO: Work when webhelp-template isn't there
-  ENV['_sdkdocs_static_files_dir'] = relative_dir.join('webhelp-template').to_s
+  ENV['_sdkdocs_static_files_dir'] = relative_dir.join('webhelp').to_s
 
   template = ERB.new File.new("#{@relative_dir}/jekyll/config-defaults.yml.erb").read
   File.open("#{@relative_dir}/jekyll/_config-defaults.yml", 'w') do |f|
@@ -32,11 +31,10 @@ task :prepare_env do
 end
 
 desc 'Ensure assets are in the right place for a build'
-task :prepare_assets => [:prepare_env] do
+task :prepare_assets => [:prepare_env, :prepare_webhelp] do
   # Copy _includes/page.html to the site source. Jekyll doesn't allow us to move this
-  # TODO: Work when webhelp-template isn't there
   RakeFileUtils.mkdir_p '_includes'
-  RakeFileUtils.cp "#{@relative_dir}/webhelp-template/app/templates/page.html", '_includes/page.html'
+  RakeFileUtils.cp "#{@relative_dir}/webhelp/jekyll/page.html", '_includes/page.html'
 end
 
 desc 'Build the site, without starting the server.'
