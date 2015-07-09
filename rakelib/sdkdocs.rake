@@ -11,7 +11,7 @@ task :default do
 end
 
 desc 'Bootstraps the build environment with bundler. Only needed to run once.'
-task :bootstrap => [:prepare_env] do
+task :bootstrap do
   RakeFileUtils.cp 'sdkdocs-template/bundler/Gemfile.template', 'Gemfile' unless File.exists?('Gemfile')
   sh "bundle install --path sdkdocs-template/_vendor/bundle"
 end
