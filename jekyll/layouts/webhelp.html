@@ -3,6 +3,9 @@
     {% assign product_version = site.product_version %}
     {% assign page_title = page.title %}
     {% assign page_title_with_h1 = '' %}
+    {% if page.title %}
+        {% capture page_title_with_h1 %}<h1>{{page.title}}</h1>{% endcapture %}
+    {% endif %}
     {% assign page_id = page.url | to_id %}
     {% assign page_content = content %}
     {% capture shortcut_switcher %}
