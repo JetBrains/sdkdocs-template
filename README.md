@@ -1,6 +1,6 @@
 # SDK Docs Template
 
-This repo is intended to make it easy to setup and manage an SDK documentation site for JetBrains products. It should be included as a submodule of the documentation repo, and is intended to hide as much of the scripting away from the documentation repo as possible.
+This repo is intended to make it easy to set up and manage an SDK documentation site for JetBrains products. It should be included as a submodule of the documentation repo, and is intended to hide as much of the scripting away from the documentation repo as possible.
 
 Once this repo has been included in the documentation repo, the documentation repo only needs define a simple `Rakefile` and minimal `_config.yml` file, and everything else is handled automatically. Building and running the site is then as simple as:
 
@@ -8,11 +8,18 @@ Once this repo has been included in the documentation repo, the documentation re
 rake preview
 ```
 
-## How to add to a site
+## How to clone and use an existing documentation site
 
-Jekyll requires Ruby, so make sure Ruby is installed. This repo makes use of [Bundler](http://bundler.io) to manage Ruby gem dependencies, installing the gems locally to prevent the need for installing globally.
+Please see the [CONTRIBUTING-example.md](CONTRIBUTING-example.md) for instructions on building sites with this repo. (The `CONTRIBUTING-example.md` file is intended to be copied, edited and added to the documentation site. It contains all the information required for building a documentation site.)
 
-1. Install Bundler - `gem install bundler`.
+## How to add to a new documentation site
+
+Please refer to the [CONTRIBUTING-example.md](CONTRIBUTING-example.md) file for details on [setting up your environment](CONTRIBUTING-example.md#setting-up-your-environment), especially for setting up prerequisites.
+
+To add the `sdkdocs-template` repo as a submodule for a new documentation site:
+
+1. Ensure Bundler is installed - `gem install bundler`.
+2. On Windows, ensure the `devkitvars.bat` file has been run in the current command prompt (e.g. `c:\tools\DevKit\devkitvars.bat`).
 2. Add this repo as a submodule of your documentation site.
 
     ```
@@ -62,168 +69,14 @@ Jekyll requires Ruby, so make sure Ruby is installed. This repo makes use of [Bu
     .bundle/
     ```
 
-    The `_site` folder is the generated site that is ready to be tested and deployed, and the `_includes` folder is unfortunately a Jekyll artifact that can't be redirected to another location. It can be safely ignored while working on the documentation. The `.bundle` folder contains configuration details for Bundler, and shouldn't be committed.
+    The `_site` folder is the generated site that is ready to be tested and deployed, and the `_includes` folder is unfortunately a Jekyll artifact that can't be redirected and hosted in the `sdkdocs-template` folder. It can be safely ignored while working on the documentation. The `.bundle` folder contains configuration details for Bundler, and shouldn't be committed.
 7. Commit the new files to source control - `Gemfile`, `Gemfile.lock`, `Rakefile`, `_config.yml` and `.gitmodules` and `sdkdocs-template`.
 
 ## How to build and test the site
 
 To build and test the site, simply run `rake preview`. This will build the site and host it, using the config provided. The URL of the hosted site is displayed on the screen, and depends on the `baseurl` field defined in `_config.yml`.
 
-When building the site, all files in the documentation repo (excluding `Rakefile`, `_includes` and the `sdkdocs-template` folder) are copied to the output `_site` folder. Markdown files are automatically converted to HTML, but only if they being with a YAML header. In other words, to convert a `.md` file to HTML, it should look like:
-
-```md
----
----
-
-# Introduction
-
-Lorem ipsum...
-```
-
-The two lines at the top of the file are the markers of the YAML "front matter". Fields can be added in between these markers, and are used when generating the HTML. Typically, this header will be empty, although it is required by Jekyll (if omitted, the file isn't converted).
-
-However, you can specify redirects in the YAML header, which is useful when renaming or moving files, and for creating a redirect from `/` to the `README.md` file. See below for details.
-
-## README.md
-
-The documentation site should contain a `README.md` file, which will be used as an introduction page, and should be the first page of the documentation site. It will also be displayed by GitHub when browsing the source. It is a good idea to set up a redirect from `index.html` in the YAML header for the `README.md` file. Something like:
-
-```md
----
-redirect_from:
-  - /index.html
----
-
-# Introduction
-
-Lorem ipsum...
-```
-
-## CONTRIBUTING.md
-
-The `CONTRIBUTING.md` file should provide information on how to contribute, including building and running the repo. Ideally, this will be:
-
-* Clone
-* Update submodules
-    * `git submodule init`
-    * `git submodule update`
-* Install Ruby and `gem install bundler`
-* `rake bootstrap`
-* `rake preview`
-
-## Creating the Table of Contents
-
-The table of contents is generated from the `_SUMMARY.md` file. It is a simple markdown list, with each item in the list being a link to another markdown page, either in the root folder, or sub-folders. The list can have nested items, which will be displayed as child items in the table of contents.
-
-```md
-# Summary
-
-* [Introduction](README.md)
-* [About This Guide](Intro/About.md)
-    * [Key Topics](Intro/KeyTopics.md)
-```
-
-The contents can be split into "parts" by separating the list into several lists, each with a level 2 heading (`##`).
-
-```md
-# Summary
-
-* [Introduction](README.md)
-* [About This Guide](Intro/About.md)
-    * [Key Topics](Intro/KeyTopics.md)
-
-## Part I - Extending the Platform
-* [Getting Started](Docs/GettingStarted.md)
-* ...
-```
-
-If a node doesn't have a link, but is just plain text, it will still appear in the table of contents, but will be greyed out and not clickable. It acts like a placeholder for a documentation item. This is useful to keep track of what should be documented, but hasn't yet, and can be useful to show readers that the topic exists, but isn't yet documented.
-
-## Creating pages
-
-A page is simply a markdown file, beginning with a YAML header. If the file does not have a YAML header, it won't get converted into HTML.
-
-### Redirects
-
-The documentation site is set up to include the `jekyll-redirect-from` plugin, which will generate "dummy" pages that automatically redirect to a given page. For example, to specify that the `index.html` page will be generated to redirect to `README.md`, the `README.md` file should include the following in the YAML header:
-
-```md
----
-redirect_from:
-  - /index.html
----
-
-# Introduction
-
-Lorem ipsum...
-```
-
-This will create an `index.html` file that will automatically redirect to the generated `README.html` file. This is very useful to allow the site URL to automatically show the `README.html` file - `http://localhost:4001/foo-test/` will try to load `index.html`, which will automatically redirect to `README.html`.
-
-It is also useful to redirect when renaming or moving files. Multiple redirects can be added to the YAML header.
-
-### Page Table of Contents
-
-The site is configured to use the [Kramdown Markdown converter](), which adds some extra features, such as "attribute lists", which can apply attributes to the generated elements.
-
-One useful attribute is `{:toc}`, which can be applied to a list item, which will get replaced with a list of links to header items. E.g. the following list item will be replaced by links to all of the header items in the page:
-
-```md
-* Dummy list item
-{:toc}
-```
-
-Further Kramdown features are described on the [converter page](http://kramdown.gettalong.org/converter/html.html), and attribute lists are described on the [syntax page](http://kramdown.gettalong.org/syntax.html). Note that source code formatting is configured to use GitHub Flavoured Mardown and "code fences", see below.
-
-### Liquid tags and filters
-
-Jekyll uses the Liquid templating language to process files. This means standard Liquid tags and filters are available. There should be little need to use them however, as the Markdown format is already quite rich. See the [Jekyll site](http://jekyllrb.com/docs/templates/) for more details.
-
-### Source code
-
-Source code can be represented by using GitHub Flavoured Markdown code fences, which are three back ticks
-
-    ```
-    // Source code goes here...
-    ```
-
-Syntax highlighting can be applied by specifying the language after the first set of ticks:
-
-    ```csharp
-    // Some C# code
-    ```
-
-    ```java
-    // Some Java code
-    ```
-
-Here is the list of [supported languages](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
-
-The site is also configured to highlight a range of files in the source code, by specifying `{start-end}` which is the start and end line of the highlighting:
-
-    ```java{2-3}
-    // Not highlighted
-    // Highlighted
-    // Highlighted
-    // Not highlighted
-    ```
-
-### Notes and callouts
-
-Notes and callouts can be specified using the blockquote syntax. The converter will look at the first following word to see if it is bold. If so, it will apply that as a callout style. For example:
-
-    > **NOTE** This is a note
-
-Will be displayed as a callout, styled as a "note". The other styles available for callouts are "note", "warning", "tip" and "todo".:w
-
-
-### Linking to headers
-
-When a Markdown header is converted to an HTML header, it is assigned an ID, so it can be linked, e.g. `## Introduction` will get the ID of `introduction`, and can be linked either in the same page `[click here](#introduction)` or cross page `[click here](page.html#introduction)`. The anchor name will be all lower case, and spaces are replaced with `-`, e.g. `## Page setup` becomes `#page-setup`.
-
-## Bundler
-
-The Rake files hide away any Bundler details, but if you add any 
+See [CONTRIBUTING-example.md] for more details.
 
 ## Submodules
 
