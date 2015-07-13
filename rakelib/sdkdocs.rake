@@ -59,3 +59,9 @@ task :preview => :prepare_assets do
 
 end
 
+desc 'Check all links'
+task :links => :build do
+  dest = ENV['dest'] || CONFIG[:build_destination]
+
+  sh "check-links '#{dest}'"
+end
