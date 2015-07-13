@@ -1,5 +1,6 @@
 require 'erb'
 require 'pathname'
+require 'link_checker'
 
 dir = Pathname.new("#{__dir__}/..").cleanpath
 relative_dir = dir.relative_path_from(Pathname.new(Dir.pwd))
@@ -60,8 +61,9 @@ task :preview => :prepare_assets do
 end
 
 desc 'Check all links'
-task :links => :build do
+task :links do #=> :build do
   dest = ENV['dest'] || CONFIG[:build_destination]
 
-  sh "check-links '#{dest}'"
+  # You can also use `check-links _site` from the command line
+  LinkChecker.new(:target => "#{dest}").check_uris
 end
