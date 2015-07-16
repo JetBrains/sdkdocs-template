@@ -70,6 +70,14 @@ class PostLinkChecker < Jekyll::SiteFilter
         end
       end
 
+      images = html.css('img').each do |img|
+        src = img['src']
+
+        target_src = Pathname.new(File.join('/', File.dirname(post.path))) + Pathname.new(src)
+
+        errors.push "Unknown image: #{img}" unless known_files.include?(target_src.to_s)
+      end
+
       if errors.any?
         puts "Errors with links in #{post.path}:"
         errors.each { |e| puts "  #{e}" }
