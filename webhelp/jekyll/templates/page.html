@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <title>{{page_title}} / {{product_name}} {{product_version}} {{site.product_type | default: 'Web Help'}}</title>
     <link rel="stylesheet" href="{{app_baseurl}}app/css/styles.min.css">
+
+    <!-- non-retina iPad pre iOS 7 -->
+    <link rel="apple-touch-icon" href="{{app_baseurl}}apple-touch-icon-72x72.png" sizes="72x72">
+
+    <!-- retina iPhone pre iOS 7 -->
+    <link rel="apple-touch-icon" href="{{app_baseurl}}apple-touch-icon-114x114.png" sizes="114x114">
+
+    <!-- retina iPad pre iOS 7 -->
+    <link rel="apple-touch-icon" href="{{app_baseurl}}apple-touch-icon-144x144.png" sizes="144x144">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{app_baseurl}}apple-touch-icon-precomposed.png">
+
+    <!-- normal favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{app_baseurl}}favicon.ico">
+    <link rel="icon" type="image/png" href="{{app_baseurl}}favicon.png">
 </head>
 <body data-id="{{page_id}}">
 <div class="wrapper">
