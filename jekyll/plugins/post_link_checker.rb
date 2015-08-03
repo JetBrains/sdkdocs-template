@@ -4,14 +4,18 @@ require 'uri'
 # The class name and filename are important! Alphabetically after post_filters.rb...
 class PostLinkChecker < Jekyll::SiteFilter
 
+  attr_accessor :baseurl
+
   def post_render(site)
+
+    @baseurl = site.config['baseurl'] || '/'
 
     known_files = []
     site.pages.each do |p|
       known_files.push post_output_path(p)
     end
     site.static_files.each do |f|
-      known_files.push f.relative_path
+      known_files.push File.join(@baseurl, f.relative_path)
     end
 
     html_docs = {}
@@ -52,9 +56,10 @@ class PostLinkChecker < Jekyll::SiteFilter
           next
         end
 
-        next if path == '/'
+        # A link to the root of the site is allowed
+        next if path == @baseurl and path.end_with? '/'
 
-        target_path = Pathname.new(File.join('/', File.dirname(post.path))) + Pathname.new(path)
+        target_path = Pathname.new(File.join(@baseurl, File.dirname(post.path))) + Pathname.new(path)
 
         if not known_files.include?(target_path.to_s) then
           errors.push "Unknown file: #{a}" unless known_files.include?(target_path.to_s)
@@ -73,7 +78,7 @@ class PostLinkChecker < Jekyll::SiteFilter
       images = html.css('img').each do |img|
         src = img['src']
 
-        target_src = Pathname.new(File.join('/', File.dirname(post.path))) + Pathname.new(src)
+        target_src = Pathname.new(File.join(@baseurl, File.dirname(post.path))) + Pathname.new(src)
 
         errors.push "Unknown image: #{img}" unless known_files.include?(target_src.to_s)
       end
@@ -90,7 +95,7 @@ class PostLinkChecker < Jekyll::SiteFilter
   end
 
   def post_output_path(post)
-    '/' + post.path.chomp(post.ext) + post.output_ext
+    @baseurl + post.path.chomp(post.ext) + post.output_ext
   end
 
   def anchor_targets(html)
