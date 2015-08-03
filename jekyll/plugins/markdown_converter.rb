@@ -114,6 +114,15 @@ module Kramdown
         format_as_span_html(el.type, attr, "<span>#{res}</span>")
       end
 
+      def convert_img(el, indent)
+        attr = el.attr.dup
+        src = attr['src']
+        src = @options[:baseurl] + src[1, src.length - 1] if src.start_with?('/') and !src.start_with?('//')
+        attr['src'] = src
+
+        "<img#{html_attributes(attr)} />"
+      end
+
       def convert_blockquote(el, indent)
 
         if el.children[0].type == :p and el.children[0].children[0].type == :strong
