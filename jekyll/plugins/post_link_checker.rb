@@ -68,8 +68,6 @@ class PostLinkChecker < Jekyll::SiteFilter
 
         if not target_path.to_s.empty? and not fragment.to_s.empty? then
 
-          puts "Looking for fragment <#{fragment}> in file <#{target_path}>"
-
           candidate_anchor_targets = html_docs[target_path.to_s][:anchor_targets]
           errors.push "Unknown anchor (other page): #{a}" unless candidate_anchor_targets.include?(fragment)
         end
