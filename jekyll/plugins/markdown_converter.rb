@@ -112,6 +112,7 @@ module Kramdown
         uri = URI(href)
         uri.path = uri.path.chomp(File.extname(uri.path)) + '.html' if File.extname(uri.path) == '.md' and !is_external
         attr['href'] = uri.to_s
+        attr['target'] = '_blank' if is_external
 
         format_as_span_html(el.type, attr, "<span>#{res}</span>")
       end
