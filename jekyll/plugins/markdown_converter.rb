@@ -13,6 +13,7 @@ module Jekyll
         def convert(content)
           options = Utils.symbolize_hash_keys(@config['kramdown'])
           options[:baseurl] = @config['baseurl']
+          options[:upsource] = Utils.symbolize_hash_keys(@config['upsource'])
           Kramdown::Document.new(content, options).to_upsrc
         end
       end
@@ -97,7 +98,8 @@ module Kramdown
         res = inner(el, indent)
         attr = el.attr.dup
         attr['href'] = '' if attr['href'].nil?
-        href = attr['href']
+        href = convert_href(attr['href'])
+
         is_external = href.start_with?('http://', 'https://', 'ftp://', '//')
         attr['data-bypass'] = 'yes' if is_external
         if href.start_with?('mailto:')
@@ -112,6 +114,36 @@ module Kramdown
         attr['href'] = uri.to_s
 
         format_as_span_html(el.type, attr, "<span>#{res}</span>")
+      end
+
+      # TODO: I don't really like this here. Everything else is all about converting
+      # the document, and this is expanding a link href to Upsource. Not sure where
+      # else to put it though, without creating some new kind of extension point,
+      # which is overkill
+      def convert_href(href)
+        if href.start_with?('upsource://')
+          opts = @options[:upsource]
+
+          # Consider the upsource: protocol to actually be upsource://host/path, where host
+          # is server, repo + commit SHA. Just like the file: protocol, the host can be
+          # skipped, in which case, we'll use the values from config. Parsing the host hasn't
+          # been implemented, because I'm lazy and we don't actually need it right now, but
+          # will at least have the space in the URL to add it when we do.
+          # This implies that the path needs to start with a slash, which in turn means *three*
+          # slashes for the plain upsource: protocol - upsource:///path/to/file.java
+          server = opts[:server]
+          repo = opts[:repo]
+          revision = if opts[:commit] == 'HEAD' then 'HEAD' else "#{repo}-#{opts[:commit]}" end
+          path = href[11..-1]
+
+          raise 'Upsource link must be in the form upsource:///path/to/file.java. Note the 3 slashes!' unless path.start_with?('/')
+
+          # e.g. https://upsource.jetbrains.com/idea-ce/file/idea-ce-1731d054af4ca27aa827c03929e27eeb0e6a8366/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnAction.java
+          # or /file/HEAD/platform/...
+          href = 'https://' + server + "/#{opts[:repo]}/file/#{revision}" + path
+        end
+
+        href
       end
 
       def convert_img(el, indent)
