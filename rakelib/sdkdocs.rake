@@ -52,8 +52,13 @@ task :preview => :prepare_assets do
   port = ENV['port'] || CONFIG[:preview_port]
   dest = ENV['dest'] || CONFIG[:build_destination]
 
+  # Are we running inside docker?
+  docker = ENV['DOCKER'] == 'true'
+
   # Force polling is more CPU intensive, but more accurate on Windows
-  force_polling = '--force_polling ' if RUBY_PLATFORM =~ /win32/
+  # It's also required if we're running in docker, since we're sharing the app folder
+  # Note that the TC build calls rake build, so this won't affect a build
+  force_polling = '--force_polling ' if RUBY_PLATFORM =~ /win32/ or docker
 
   sh "bundle exec jekyll serve --trace --config #{@relative_dir}/jekyll/_config-defaults.yml,_config.yml --host=#{host} --port=#{port} #{force_polling} --destination=#{dest}"
 
