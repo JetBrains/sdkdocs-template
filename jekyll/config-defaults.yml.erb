@@ -55,18 +55,21 @@ markdown: CustomKramdownParser
 # * Use GFM2, which parses GitHub Flavour Markup, including code fences, but adds support for
 #   line highlighting a code fence, e.g. ```csharp{1 23} ... ```
 # * Set the TOC levels - display h2-h6 only
-# * Use the pygments highlighter for GFM code fences
+# * Use the rouge highlighter for GFM code fences
 kramdown:
   input: GFM2
   hard_wrap: false
   auto_ids: false
   toc_levels: 2..6
-  syntax_highlighter: pygments
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    wrap: false
 
-# Use pygments for syntax highlighting {% highlight ruby %}...{% endhighlight %} snippets.
-# The custom kramdown parser understands GFM code fences and internally uses pygments,
-# this just uses the same parser for liquid tags as GFM code fences
-highlighter: pygments
+# Configure Jekyll to use rouge for syntax highlighting liquid tags.
+# i.e. {% highlight ruby %}...{% endhighlight %} snippets.
+# The markdown converter already configures Kramdown to use rouge
+# for GFM code blocks. This is for plain liquid tags.
+highlighter: rouge
 
 # Copy the following static files
 static_files:

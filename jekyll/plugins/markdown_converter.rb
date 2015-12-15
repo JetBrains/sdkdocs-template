@@ -1,5 +1,5 @@
 require 'kramdown'
-require 'pygments'
+require 'rouge'
 require 'uri'
 
 module Jekyll
@@ -182,39 +182,44 @@ module Kramdown
       end
     end
 
-    module SyntaxHighlighter
-      module Pygments
-        ::Kramdown::Converter.add_syntax_highlighter(:pygments, Pygments)
-
-        def self.call(converter, text, lang, type, code_opts)
-          # TODO: Merge this with :options below
-          opts = converter.options[:syntax_highlighter_opts].dup
-
-          hl_lines = ''
-          highlight_lines = code_opts[:highlight_lines] || ''
-          if highlight_lines
-            hl_lines = highlight_lines.gsub(/[{}]/, '').split(',').map do |ln|
-              if matches = /(\d+)-(\d+)/.match(ln)
-                ln = Range.new(matches[1], matches[2]).to_a.join(' ')
-              end
-              ln
-            end.join(' ')
-          end
-
-          if lang
-            ::Pygments.highlight(text,
-                               :lexer => lang || 'text',
-                               :options => {
-                                 :encoding => 'utf-8',
-                                 :nowrap => true,
-                                 :hl_lines => hl_lines
-                               })
-          else
-            escape_html(text)
-          end
-        end
-      end
-    end
+# Rouge doesn't support highlighting lines - see jneen/rouge#264
+# If/when it does, rewrite this to override the default implmentation
+# from Kramdown, to pass in the line numbers to highlight. See
+# kramdown/converters/syntax_highlighters/rouge.rb for the actual code
+#
+#    module SyntaxHighlighter
+#      module Rouge
+#        ::Kramdown::Converter.add_syntax_highlighter(:rouge, Rouge)
+#
+#        def self.call(converter, text, lang, type, code_opts)
+#          # TODO: Merge this with :options below
+#          opts = converter.options[:syntax_highlighter_opts].dup
+#
+#          hl_lines = ''
+#          highlight_lines = code_opts[:highlight_lines] || ''
+#          if highlight_lines
+#            hl_lines = highlight_lines.gsub(/[{}]/, '').split(',').map do |ln|
+#              if matches = /(\d+)-(\d+)/.match(ln)
+#                ln = Range.new(matches[1], matches[2]).to_a.join(' ')
+#              end
+#              ln
+#            end.join(' ')
+#          end
+#
+#          if lang
+#            ::Pygments.highlight(text,
+#                               :lexer => lang || 'text',
+#                               :options => {
+#                                 :encoding => 'utf-8',
+#                                 :nowrap => true,
+#                                 :hl_lines => hl_lines
+#                               })
+#          else
+#            escape_html(text)
+#          end
+#        end
+#      end
+#    end
   end
 
   module Parser
