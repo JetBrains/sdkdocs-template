@@ -2,7 +2,7 @@
 
 Thanks for contributing! Here are few useful things to know before submitting your Pull Request.
 
-* Licensing - see [LICENSE.txt](/LICENSE.txt)
+* Licensing - see [LICENSE.txt](LICENSE.txt)
 * [Setting up your environment](#setting-up-your-environment)
 * [Markup](#markup)
     * _SUMMARY.md
