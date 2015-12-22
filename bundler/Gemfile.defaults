@@ -19,4 +19,5 @@ gem 'rouge', :git => 'https://github.com/citizenmatt/rouge.git', :branch => 'mul
 group :jekyll_plugins do
   gem 'jekyll-redirect-from'
   gem 'jekyll-git_metadata', :git => 'https://github.com/breandan/jekyll-git_metadata.git', :branch => 'fix_windows'
+  gem 'octopress-render-code'
 end
