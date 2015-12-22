@@ -7,17 +7,17 @@ gem 'jekyll', '~> 3.0'
 
 # This version of link-checker has extra fixes to the official version.
 # Namely, it supports a version of nokogiri that installs on Windows
-gem 'link-checker', :git => 'https://github.com/breandan/link-checker.git', :branch => 'multiple_fixes'
+gem 'link-checker', :git => 'https://github.com/JetBrains/link-checker.git', :branch => 'multiple_fixes'
 
 # Avoid polling for changes
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # Use rouge for syntax highlighting instead of pygments. Use this fork
 # to get support for Kotlin, and a Java lexer that matches latest pygments
-gem 'rouge', :git => 'https://github.com/citizenmatt/rouge.git', :branch => 'multiple_fixes'
+gem 'rouge', :git => 'https://github.com/JetBrains/rouge', :branch => 'multiple_fixes'
 
 group :jekyll_plugins do
   gem 'jekyll-redirect-from'
-  gem 'jekyll-git_metadata', :git => 'https://github.com/breandan/jekyll-git_metadata.git', :branch => 'fix_windows'
+  gem 'jekyll-git_metadata', :git => 'https://github.com/JetBrains/jekyll-git_metadata.git', :branch => 'fix_windows'
   gem 'octopress-render-code'
 end
