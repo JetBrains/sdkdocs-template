@@ -37,8 +37,8 @@ toc_output: HelpTOC.json
 # It's a shame we can't change the location of _includes via config
 # Also, these assume you've got this subrepo mounted as sdkdocs-template.
 # If you don't, override in the _config.yml
-plugins: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/plugins
-layouts: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/layouts
+plugins_dir: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/plugins
+layouts_dir: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/layouts
 
 # Do not copy these files
 exclude:

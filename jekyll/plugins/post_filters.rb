@@ -82,7 +82,7 @@ module Jekyll
 
     # Copy the #write method to #old_write, so we can redefine #write
     # method.
-    alias_method :old_write, :write
+    # alias_method :old_write, :write
 
     # Write the generated post file to the destination directory. It
     # then calls any post_write methods that may exist.
@@ -90,7 +90,7 @@ module Jekyll
     #
     # Returns nothing
     def write(dest)
-      old_write(dest)
+      # old_write(dest)
       post_write if respond_to?(:post_write)
     end
   end
@@ -101,7 +101,7 @@ module Jekyll
 
     # Copy the #write method to #old_write, so we can redefine #write
     # method.
-    alias_method :old_write, :write
+    # alias_method :old_write, :write
 
     # Write the generated post file to the destination directory. It
     # then calls any post_write methods that may exist.
@@ -109,7 +109,7 @@ module Jekyll
     #
     # Returns nothing
     def write(dest)
-      old_write(dest)
+      # old_write(dest)
       post_write if respond_to?(:post_write)
     end
   end
