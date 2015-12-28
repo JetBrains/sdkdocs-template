@@ -7,7 +7,7 @@ gem 'jekyll', '~> 3.0'
 
 # This version of link-checker has extra fixes to the official version.
 # Namely, it supports a version of nokogiri that installs on Windows
-gem 'link-checker', :git => 'https://github.com/JetBrains/link-checker.git', :branch => 'multiple_fixes'
+#gem 'link-checker', :git => 'https://github.com/JetBrains/link-checker.git', :branch => 'multiple_fixes'
 
 # Avoid polling for changes
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
