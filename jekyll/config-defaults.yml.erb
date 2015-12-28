@@ -40,6 +40,9 @@ toc_output: HelpTOC.json
 plugins_dir: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/plugins
 layouts_dir: <%= ENV['_sdkdocs_template_dir'] %>/jekyll/layouts
 
+include:
+  - code_samples
+
 # Do not copy these files
 exclude:
   - Rakefile
