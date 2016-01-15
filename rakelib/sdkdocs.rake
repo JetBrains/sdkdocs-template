@@ -40,10 +40,11 @@ desc 'Ensure assets are in the right place for a build'
 task :prepare_assets => [:prepare_config_defaults, :prepare_webhelp, :prepare_jekyll_includes]
 
 desc 'Build the site, without starting the server.'
-task :build => :prepare_assets do
+task :build, [:configyml] => :prepare_assets do |t, args|
+  args.with_defaults(:configyml => '_config.yml')
   dest = ENV['dest'] || CONFIG[:build_destination]
 
-  sh "bundle exec jekyll build --trace --config #{@relative_dir}/jekyll/_config-defaults.yml,_config.yml --destination=#{dest}"
+  sh "bundle exec jekyll build --trace --config #{@relative_dir}/jekyll/_config-defaults.yml,#{args[:configyml]} --destination=#{dest}"
 end
 
 desc 'Builds and hosts the site.'
