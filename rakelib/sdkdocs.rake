@@ -13,7 +13,7 @@ end
 desc 'Bootstraps the build environment with bundler. Only needed to run once.'
 task :bootstrap do
   RakeFileUtils.cp 'sdkdocs-template/bundler/Gemfile.template', 'Gemfile' unless File.exists?('Gemfile')
-  sh "bundle install --path ~/.bundles/sdkdocs-template/_vendor/bundle"
+  sh "gem install bundler && bundle install --path ~/.bundles/sdkdocs-template/_vendor/bundle"
 end
 
 task :prepare_config_defaults do

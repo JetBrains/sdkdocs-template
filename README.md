@@ -46,7 +46,7 @@ To add the `sdkdocs-template` repo as a submodule for a new documentation site:
 
 4. Run `rake bootstrap` to set up the Jekyll environment. This will:
     * Create a `Gemfile` in the root directory, if it doesn't exist. The `Gemfile` will include `sdkdocs-template/bundler/Gemfile.defaults`, which lists the default gems required.
-    * Runs `bundle install --path sdkdocs-template/_vendor/bundle`, which tells Bundler to create a local copy of the gems specified in the `Gemfile`. The gems are installed to `sdkdocs-template/_vendor/bundle`, which is excluded from source control.
+    * Runs `bundle install --path ~/.bundles/sdkdocs-template/_vendor/bundle`, which tells Bundler to create a local copy of the gems specified in the `Gemfile`. The gems are installed to `~/.bundles/sdkdocs-template/_vendor/bundle`.
     * If you wish to add further gems, add them to the `Gemfile` in the root folder, and run `bundle install`.
 5. Add a `_config.yml` file to specify config for the Jekyll site. The `sdkdocs-template` includes a default config file, and this one can override anything in there. You can see what other values are available for overriding by looking at `sdkdocs-template/jekyll/_config-defaults.yml.erb` (the file is pre-processed before being used to fix some paths). A good example of the content you need to add to the documentation site:
 
