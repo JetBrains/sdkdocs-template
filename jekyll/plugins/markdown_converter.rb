@@ -228,7 +228,7 @@ module Kramdown
         super
       end
 
-      FENCED_CODEBLOCK_MATCH = /^(([~`]){3,})\s*?(\w+[\{\}\,\d\-]*?)?\s*?\n(.*?)^\1\2*\s*?\n/m
+      FENCED_CODEBLOCK_MATCH = /^(([~`]){3,})\s*?((\S+?)(?:\?\S*)?)?\s*?\n(.*?)^\1\2*\s*?\n/m
     end
   end
 end
