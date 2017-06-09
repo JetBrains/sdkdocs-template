@@ -8,6 +8,27 @@ Once this repo has been included in the documentation repo, the documentation re
 rake preview
 ```
 
+## Structure
+
+The idea behind this repo is to contain the compile time Rake scripts to build a documentation site. It also contains the Jekyll templates, scripts and styles to host the site at runtime. It is intended to be used as a submodule for a documentation site repo. The structure of this repo is as follows:
+
+* **README.md** - this file.
+* **CONTRIBUTING-example.md** - a Markdown file that contains instructions on how to contribute to a document site, including steps to build and test locally. This file is intended to be copied and modified as appropriate to the CONTRIBUTING.md file in the root repo. GitHub will automatically display this file when contributing.
+* **bundler/Gemfile.defaults** - contains the default set of gems required to build a documentation site.
+* **bundler/Gemfile.template** - contains a template Gemfile that will include and invoke the bundler/Gemfile.defaults. Intended to be used as the Gemfile in the root repo.
+* **jekyll/config-defaults.yml.erb** - template to generate the `jekyll/_config-defaults.yml` file which contains a default set of Jekyll config to host the documentation site. This file is used by default by the Rake scripts, with the `_config.yml` file in the root repo being used to override or add extra config. It is generated to correctly set file paths for Jekyll layouts, plugins and static files. 
+* **jekyll/layouts/webhelp.html** - defines the layout of the main content of the page. Does not include any HTML or navigation, but sets Jekyll variables.
+* **jekyll/plugins/markdown_converter.rb** - Extends the Jekyll Kramdown Markdown converter to generate content that the webhelp template expects, such as correct attributes, call outs, etc. Also correctly handles GitHub For Markdown style codeblocks.
+* **jekyll/plugins/static_files.rb** - copies static files defines in the Jekyll config to the output site.
+* **jekyll/plugins/to_id_filter.rb** - a Jekyll Liquid filter to convert a page's URL to an ID that can be used in the page markup.
+* **jekyll/plugins/toc_generator.rb** - generates a JSON based table of contents page from the `_SUMMARY.md` file.
+* **jekyll/templates/page.html** - the HTML template to use to generate pages, including navigation, and incorporating the output of the `webhelp.html` layout file.
+* **rakelib/gh_pages.rake** - adds `gh_pages` Rake task to build the site and commit it to the `gh_pages` branch, ready for hosting in GitHub.
+* **rakelib/sdkdocs.rake** - adds tasks to `bootstrap` the Bundler environment, and `build` and/or `preview` the site. Will preprocess the `_config-defaults.yml` file, copy the `page.html` template (because Jekyll can't redirect templates like it can layout and plugins) and invoke Jekyll to build and/or serve the site. Can also check for dead links with the `links` task.
+* **rakelib/webhelp.rake** - the scripts and styles used for JetBrains webhelp sites are not in a publicly available repo. This scripts adds Rake tasks to update the compiled version of the scripts and styles from this private repo.
+* **styles/** - extra styles that are not included in the standard webhelp setup. E.g. anchor highlighting.
+* **webhelp/** - a precompiled copy of the standard JetBrains webhelp site scripts and styles.
+
 ## How to clone and use an existing documentation site
 
 Please see the [CONTRIBUTING-example.md](CONTRIBUTING-example.md) for instructions on building sites with this repo. (The `CONTRIBUTING-example.md` file is intended to be copied, edited and added to the documentation site. It contains all the information required for building a documentation site.)

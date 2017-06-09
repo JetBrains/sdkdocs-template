@@ -5,86 +5,84 @@
   display: inline-block;
   top: 1px;
   padding: 5px 8px 0;
-  text-decoration: none; }
-  .article h1 .anchor-link:after,
-  .article h2 .anchor-link:after,
-  .article h3 .anchor-link:after {
-    position: absolute;
-    display: none;
-    bottom: 50%;
-    margin-top: -8px;
-    opacity: 0.5;
-    width: 16px;
-    height: 16px;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACxQAAAsUBidZ/7wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEqSURBVDiNjdM9S1xRFIXhB8QoihZ+DRoJjlPYWAy2qQSbBFv/gOlT2CuKf0BSphe0EAVBBAvRJlYxghrRQqNgFXEQK5tr4Wa4XO44t9jNXme9h732OZIk0azQigVc4wFr+JQkiSLmduwiyVQNlSKA72G4xzTK2IneZhHAGH6ikupVAvC/KaAB9HMAbhodmMUv3GEdgymtB8cB+JE1dmAjJ7Ct0HtT5nN0pc2d2K/PxgxGsIxJ9OEk9DOU6msM80GItxFSFd9ijV9xEfopBlIX+4DDEP9hNITt6D2nRvmN/szYFuuJUk4J4/gT2hNW0JYTuMs49KXBRkpoeWelagEYypjmMVzgTdgLwCo+Ygp/ozdXBDCBl5zdH6G7KSAoVW8/7hFXWMoLLK9eAaRNvta9bjm9AAAAAElFTkSuQmCC937405abf7d2fa1cd5d9079c2e5160ac");
-    background-repeat: no-repeat;
-    content: ''; }
-  .article h1 .anchor-link:hover:after,
-  .article h2 .anchor-link:hover:after,
-  .article h3 .anchor-link:hover:after {
-    display: block; }
-  .article h1 .anchor-link:hover:after,
-  .article h2 .anchor-link:hover:after,
-  .article h3 .anchor-link:hover:after {
-    opacity: 1; }
+  text-decoration: none;
+}
+.article h1 .anchor-link:after,
+.article h2 .anchor-link:after,
+.article h3 .anchor-link:after {
+  position: absolute;
+  display: none;
+  bottom: 50%;
+  margin-top: -8px;
+  opacity: 0.5;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACxQAAAsUBidZ/7wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEqSURBVDiNjdM9S1xRFIXhB8QoihZ+DRoJjlPYWAy2qQSbBFv/gOlT2CuKf0BSphe0EAVBBAvRJlYxghrRQqNgFXEQK5tr4Wa4XO44t9jNXme9h732OZIk0azQigVc4wFr+JQkiSLmduwiyVQNlSKA72G4xzTK2IneZhHAGH6ikupVAvC/KaAB9HMAbhodmMUv3GEdgymtB8cB+JE1dmAjJ7Ct0HtT5nN0pc2d2K/PxgxGsIxJ9OEk9DOU6msM80GItxFSFd9ijV9xEfopBlIX+4DDEP9hNITt6D2nRvmN/szYFuuJUk4J4/gT2hNW0JYTuMs49KXBRkpoeWelagEYypjmMVzgTdgLwCo+Ygp/ozdXBDCBl5zdH6G7KSAoVW8/7hFXWMoLLK9eAaRNvta9bjm9AAAAAElFTkSuQmCC937405abf7d2fa1cd5d9079c2e5160ac");
+  background-repeat: no-repeat;
+  content: "";
+}
 
 @-webkit-keyframes header-highlighting {
   0% {
-    background-color: #FFFFCC; }
-
+    background-color: #FFFFCC;
+  }
   100% {
-    background-color: #fff; } }
+    background-color: #fff;
+  }
+}
 @-moz-keyframes header-highlighting {
   0% {
-    background-color: #FFFFCC; }
-
+    background-color: #FFFFCC;
+  }
   100% {
-    background-color: #fff; } }
+    background-color: #fff;
+  }
+}
 @-o-keyframes header-highlighting {
   0% {
-    background-color: #FFFFCC; }
-
+    background-color: #FFFFCC;
+  }
   100% {
-    background-color: #fff; } }
+    background-color: #fff;
+  }
+}
 @keyframes header-highlighting {
   0% {
-    background-color: #FFFFCC; }
-
+    background-color: #FFFFCC;
+  }
   100% {
-    background-color: #fff; } }
+    background-color: #fff;
+  }
+}
 .article h1:hover .anchor-link:after,
 .article h2:hover .anchor-link:after,
 .article h3:hover .anchor-link:after {
-  /* TODO: uncomment when https://youtrack.jetbrains.com/issue/JS-3210 will be fixed */ }
+  display: block;
+  opacity: 1;
+}
 .article .elem-anchor:target + h1,
 .article .elem-anchor:target + h2,
 .article .elem-anchor:target + h3 {
   -webkit-animation: header-highlighting 1.5s;
   -moz-animation: header-highlighting 1.5s;
   -o-animation: header-highlighting 1.5s;
-  animation: header-highlighting 1.5s; }
+  animation: header-highlighting 1.5s;
+}
 .article img {
-  max-width: 100%; }
+  max-width: 100%;
+}
 .article pre {
-  margin-bottom: 20px !important; }
+  margin-bottom: 20px !important;
+}
 .article .code-block__wrapper {
-  padding: 14px 10px;
-  font-size: 14px;
-  font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
   line-height: normal;
-  border: none; }
+}
 .article .hll {
   display: block;
   margin-left: -10px;
   margin-right: -10px;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #FFFFCC; }
-
-.panel._main,
-.panel._main .panel__header,
-.panel__header._fixed {
-  left: 256px; }
-
-.panel._nav {
-  width: 256px; }
+  background-color: #FFFFCC;
+}

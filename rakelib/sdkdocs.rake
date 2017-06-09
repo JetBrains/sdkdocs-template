@@ -30,7 +30,7 @@ task :prepare_config_defaults do
 end
 
 directory '_includes'
-file '_includes/page.html' => [ '_includes', "#{@relative_dir}/webhelp/jekyll/templates/page.html" ] do |t|
+file '_includes/page.html' => [ '_includes', "#{@relative_dir}/jekyll/templates/page.html" ] do |t|
   cp t.prerequisites[1], t.name, :verbose => true
 end
 

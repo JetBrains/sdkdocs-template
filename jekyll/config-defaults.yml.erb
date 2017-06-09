@@ -76,13 +76,10 @@ highlighter: rouge
 
 # Copy the following static files
 static_files:
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/js/main.build.js": "app/js/"
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/js/vendor/requirejs/require.js": "app/js/vendor/requirejs/"
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/css/styles.min.css": "app/css/"
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/fonts/*": "app/fonts/"
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/img/svg/*": "app/img/svg/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/app/app.*": "app/"
   "<%= ENV['_sdkdocs_static_files_dir'] %>/favicon.*": "/"
   "<%= ENV['_sdkdocs_static_files_dir'] %>/*.png": "/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/../styles/styles.css": "app/"
 
 defaults:
   - values:

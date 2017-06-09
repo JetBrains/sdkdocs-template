@@ -1,7 +1,5 @@
-@import 'util/_animation';
-@import 'com/_bits/_anchor';
-
-$nav-panel-width: 256px;
+@import '_animation';
+@import '_anchor';
 
 .article
 {
@@ -14,16 +12,14 @@ $nav-panel-width: 256px;
     h1,
     h2,
     h3 {
-        &:hover .anchor-link:after {
-            /* TODO: uncomment when https://youtrack.jetbrains.com/issue/JS-3210 will be fixed */
-            //display: none
-        }
-
         .anchor-link {
             @extend %header-anchor-link;
         }
+        &:hover .anchor-link:after {
+            display: block;
+            opacity: 1;
+        }
     }
-
 
     .elem-anchor:target + h1,
     .elem-anchor:target + h2,
@@ -43,12 +39,10 @@ $nav-panel-width: 256px;
 
 
     .code-block__wrapper {
-        padding: 14px 10px;
-        font-size: 14px;
         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
-        border: none;
+        line-height: normal;
     }
-    
+
     .hll {
         display: block;
         margin-left: -10px;
@@ -59,13 +53,3 @@ $nav-panel-width: 256px;
     }
 }
 
-
-.panel._main,
-.panel._main .panel__header,
-.panel__header._fixed {
-    left: $nav-panel-width;
-}
-
-.panel._nav {
-    width: $nav-panel-width;
-}

@@ -59,12 +59,15 @@ module Kramdown
           highlight_lines = "{#{lang_parts[1]}"
         end
 
+        div_attr = {}
+        div_attr['class'] = "code-block"
+        div_attr['data-lang'] = lang if lang
+
         code = highlight_code(el.value, lang, :block, { :highlight_lines => highlight_lines })
         code_attr = {}
         code_attr['class'] = "code-block__wrapper"
-        code_attr['class'] += " code-block _highlighted lang_#{lang}" if lang
 
-        format_as_block_html('pre', {}, format_as_span_html('code', code_attr, code), 0)
+        format_as_block_html('div', div_attr, format_as_span_html('code', code_attr, code), 0)
       end
 
       # Extract the code block/span language from the class attribute, if specified.
@@ -222,13 +225,49 @@ module Kramdown
 #    end
   end
 
+  # GFM parser doesn't support indented code blocks, i.e. those that are inside a list
   module Parser
     class GFM2 < GFM
       def parse
         super
       end
 
-      FENCED_CODEBLOCK_MATCH = /^(([~`]){3,})\s*?((\w+)[\{\}\,\d\-]*?)?\s*?\n(.*?)^\1\2*\s*?\n/m
+      # Note that we need to keep the same number of capturing groups
+      # The parsing code relies on this order
+
+      FENCED_CODEBLOCK_MATCH = /^([ \t]*([~`]){3,})\s*((\w+)(?:\{[\,\d\-]+\})?)?\s*?\n(.*?)^\1.*?\n/m
+
+      define_parser(:codeblock_fenced_gfm_indented, /^[ \t]*[~`]{3,}/, nil, 'parse_codeblock_fenced')
+
+      def initialize(source, options)
+        super
+        {:codeblock_fenced_gfm => :codeblock_fenced_gfm_indented}.each do |current, replacement|
+          i = @block_parsers.index(current)
+          @block_parsers.delete(current)
+          @block_parsers.insert(i, replacement)
+        end
+      end
+
+      def parse_codeblock_fenced
+        if @src.check(self.class::FENCED_CODEBLOCK_MATCH)
+          start_line_number = @src.current_line_number
+          @src.pos += @src.matched_size
+          el = new_block_el(:codeblock, unindent(@src[5]), nil, :location => start_line_number)
+          lang = @src[3].to_s.strip
+          unless lang.empty?
+            el.options[:lang] = lang
+            el.attr['class'] = "language-#{@src[4]}"
+          end
+          @tree.children << el
+          true
+        else
+          false
+        end
+      end
+
+      def unindent(s)
+        s.gsub(/^#{s.scan(/^[ \t]*(?=\S)/).min}/, '')
+      end
     end
   end
 end

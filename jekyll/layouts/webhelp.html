@@ -32,5 +32,5 @@
 
 {% endcapture %}
 {% capture rendered_content %}{% include page.html %}{% endcapture %}
-{% capture local_style_sheet %}<link  rel="stylesheet" href="{{app_baseurl}}styles/styles.css"></head>{% endcapture %}
+{% capture local_style_sheet %}<link  rel="stylesheet" href="{{app_baseurl}}app/styles.css"></head>{% endcapture %}
 {{ rendered_content | replace:'</head>', local_style_sheet }}
