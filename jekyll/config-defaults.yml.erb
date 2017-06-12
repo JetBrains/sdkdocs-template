@@ -79,7 +79,8 @@ static_files:
   "<%= ENV['_sdkdocs_static_files_dir'] %>/app/app.*": "app/"
   "<%= ENV['_sdkdocs_static_files_dir'] %>/favicon.*": "/"
   "<%= ENV['_sdkdocs_static_files_dir'] %>/*.png": "/"
-  "<%= ENV['_sdkdocs_static_files_dir'] %>/../styles/styles.css": "app/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/../styles/*": "app/"
+  "<%= ENV['_sdkdocs_static_files_dir'] %>/../images/*": "app/"
 
 defaults:
   - values:

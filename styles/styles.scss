@@ -1,6 +1,8 @@
 @import '_animation';
 @import '_anchor';
 
+@import 'page-link-to-github';
+
 .article
 {
     @include animation-keyframes(header-highlighting) {
@@ -27,6 +29,10 @@
         @include animation(header-highlighting 1.5s);
     }
 
+    .page-link-to-github {
+        float: right;
+        top: 4px;
+    }
 
     img {
         max-width: 100%;
