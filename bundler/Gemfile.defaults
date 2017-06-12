@@ -12,11 +12,10 @@ gem 'jekyll', '~> 3.1.2'
 # Avoid polling for changes
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
-# Use rouge for syntax highlighting instead of pygments. Use this fork
-# to get support for Kotlin, and a Java lexer that matches latest pygments
-gem 'rouge', :git => 'https://github.com/JetBrains/rouge', :branch => 'multiple_fixes'
+# Use rouge for syntax highlighting instead of pygments (Ruby instead of Python)
+gem 'rouge'
 
 group :jekyll_plugins do
   gem 'jekyll-redirect-from'
-  gem 'jekyll-git_metadata', :git => 'https://github.com/JetBrains/jekyll-git_metadata.git', :branch => 'fix_windows'
+  gem 'jekyll-git_metadata'
 end
