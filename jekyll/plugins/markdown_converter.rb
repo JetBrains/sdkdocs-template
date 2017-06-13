@@ -195,12 +195,10 @@ module Kramdown
         columns = ''
         column = ''
         for c in el.children do
-          puts c.type
           if c.type == :blank
             columns += format_as_indented_block_html('div', {'class' => 'seealso__col'}, column, indent) unless column == ''
             column = ''
           else
-            puts convert(c, indent)
             column += convert(c, indent)
           end
         end
