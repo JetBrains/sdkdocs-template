@@ -163,11 +163,15 @@ module Kramdown
 
         if el.children[0].type == :p and el.children[0].children[0].type == :strong
           p = el.children[0]
-          type = inner_text(p.children[0], []).downcase
+          type = inner_text(p.children[0], []).downcase.gsub(/\s+/, '')
+
+          # Remove the "Note" bold text from the element
+          el.children.slice!(0)
+
           type = type + ' ' + el.attr['class'] unless el.attr['class'].nil?
           el.attr['class'] = type
 
-          p.children.slice!(0)
+          return format_seealso(el, indent) if type == 'seealso'
         end
 
         format_as_indented_block_html('aside', el.attr, inner(el, indent), indent)
@@ -182,6 +186,28 @@ module Kramdown
         end
         stack.pop
         result
+      end
+
+      def format_seealso(el, indent)
+        h2 = format_as_span_html('h2', [], 'See Also')
+        header = format_as_indented_block_html('div', {'class' => 'seealso__header'}, h2, indent)
+
+        columns = ''
+        column = ''
+        for c in el.children do
+          puts c.type
+          if c.type == :blank
+            columns += format_as_indented_block_html('div', {'class' => 'seealso__col'}, column, indent) unless column == ''
+            column = ''
+          else
+            puts convert(c, indent)
+            column += convert(c, indent)
+          end
+        end
+        columns += format_as_indented_block_html('div', {'class' => 'seealso__col'}, column, indent) unless column == ''
+
+        content = format_as_indented_block_html('div', {'class' => 'seealso__content'}, columns, indent)
+        format_as_indented_block_html('section', el.attr, header+content, indent)
       end
     end
 

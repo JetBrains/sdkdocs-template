@@ -16,6 +16,7 @@ Thanks for contributing! Here are few useful things to know before submitting yo
     * [Links](#links)
     * [Callouts](#notes-and-callouts)
     * [Images](#images)
+    * [See Also sections](#see-also-sections)
 * Style guide
 * [A word on submodules](#a-word-on-submodules)
 
@@ -243,17 +244,37 @@ Links are handled as normal markdown links, and can be links to external sites, 
 
 Notes and callouts can be specified using the blockquote syntax. The converter will look at the first following word to see if it is bold. If so, it will apply that as a callout style. For example:
 
-    > **NOTE** This is a note
+```md
+> **NOTE** This is a note
+```
 
 Will be displayed as a callout, styled as a "note". The other styles available for callouts are "note", "warning", "tip" and "todo".
+
+### See Also sections
+
+A blockquote can also be used to create a "See Also" section. This is styled as a section with a border and a title of "See Also". Typically, it contains one or more columns, defined as a heading and a list of links. This is represented in the markdown in a manner similar to notes and callouts above - a blockquote with an initial word of "See Also", in bold. A column is defined as everything up to the next blank line. Typically, this will be a line of text immediately followed by a bullet list. For example:
+
+```md
+> **SEE ALSO**
+>
+> References:
+> * [Something interesting](https://example.org)
+> * [Something else interesting](https://example.org)
+>
+> External links
+> * [Something interesting](https://example.org)
+> * [Something else interesting](https://example.org)
+```
+
+A "See Also" section should be at the bottom of the file, but there is nothing in the converter to enforce this.
 
 ### Images
 
 Images can be included by adding the file directly to the repository and adding a link to the image like so:
 
-    ```md
-    ![Alt text](path-to-img.png)
-    ```
+```md
+![Alt text](path-to-img.png)
+```
 
 Please downscale screenshots made at high resolution.
 
