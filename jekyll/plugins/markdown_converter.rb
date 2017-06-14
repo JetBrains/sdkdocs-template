@@ -165,8 +165,8 @@ module Kramdown
           p = el.children[0]
           type = inner_text(p.children[0], []).downcase.gsub(/\s+/, '')
 
-          # Remove the "Note" bold text from the element
-          el.children.slice!(0)
+          # Remove the "Note" bold text from the first paragraph
+          p.children.slice!(0)
 
           type = type + ' ' + el.attr['class'] unless el.attr['class'].nil?
           el.attr['class'] = type
