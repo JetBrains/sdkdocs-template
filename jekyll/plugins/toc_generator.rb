@@ -36,10 +36,7 @@ class TocGenerator < Jekyll::Generator
     toc_page = TocPage.new(site, site.source, '/', toc_output, toc_content.to_json)
     site.pages << toc_page
 
-
-    hash = Hash.new
-    site.pages.each { |p| hash[p.path] = p }
-    populate_prev_next(hash, toc_content)
+    populate_prev_next(site, toc_content)
   end
 
   def generate_toc(site, toc_input)
@@ -74,10 +71,26 @@ class TocGenerator < Jekyll::Generator
     toc
   end
 
-  def populate_prev_next(pages, toc)
+  def populate_prev_next(site, toc)
+    hash = Hash.new
+    site.pages.each { |p| hash[p.path] = p }
+    missing_titles = Set.new
+    do_populate_prev_next(hash, toc, missing_titles)
+    missing_titles.each do |x|
+        puts "Page is missing titles for next/prev navigation: #{x}"
+    end
+    raise "Site has missing titles" if not missing_titles.empty?
+  end
+
+  def do_populate_prev_next(pages, toc, missing_titles)
+      p = nil
       toc.each_with_index do |t,i|
-          p = toc[i - 1] if i > 0
-          n = toc[i + 1] if i < toc.length
+          j = i + 1
+          n = toc[j] if j < toc.length
+          while j < toc.length and not n.nil? and not n.key?(:path) do
+              j = j + 1
+              n = toc[j]
+          end
 
           if t.key?(:path)
               this_page = pages[t[:path]]
@@ -85,10 +98,14 @@ class TocGenerator < Jekyll::Generator
               this_page.data["previous"] = pages[p[:path]] unless p.nil?
               this_page.data["next"] = pages[n[:path]] unless n.nil?
 
-              raise "Page requires title for next/previous navigation: #{p[:path]}" if not p.nil? and not pages[p[:path]].data.key?("title")
-              raise "Page requires title for next/previous navigation: #{n[:path]}" if not n.nil? and not pages[n[:path]].data.key?("title")
+              raise "Unknown page: #{n.inspect}" if not n.nil? and pages[n[:path]].nil?
 
-              populate_prev_next(pages, t[:pages]) if t.key?(:pages)
+              missing_titles << p[:path] if not p.nil? and not pages[p[:path]].data.key?("title")
+              missing_titles << n[:path] if not n.nil? and not pages[n[:path]].data.key?("title")
+
+              do_populate_prev_next(pages, t[:pages], missing_titles) if t.key?(:pages)
+
+              p = t
           end
       end
   end
