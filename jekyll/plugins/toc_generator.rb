@@ -79,7 +79,7 @@ class TocGenerator < Jekyll::Generator
     missing_titles.each do |x|
         puts "Page is missing titles for next/prev navigation: #{x}"
     end
-    raise "Site has missing titles" if not missing_titles.empty?
+    raise "Site has missing #{missing_titles.count} missing titles" if not missing_titles.empty?
   end
 
   def do_populate_prev_next(pages, toc, missing_titles)
