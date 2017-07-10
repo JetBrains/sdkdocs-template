@@ -41,6 +41,10 @@
         <section class="panel__content">
             <div class="container">
                 <article class="article" data-shortcut-switcher="{{is_show_shortcut_switcher}}">
+                    <div class="navigation-links _top" data-swiftype-index="false">
+                        {% if page.previous.url %}<a class="navigation-links__prev" href="{{page.previous.url}}">{{page.previous.title}}</a>{% endif %}
+                        {% if page.next.url %}<a class="navigation-links__next" href="{{page.next.url}}">{{page.next.title}}</a>{% endif %}
+                    </div>
                     <a data-bypass="true" href="{{edit_on_github_url}}" class="page-link-to-github" target="_blank" title="Edit this page on GitHub">
                         <i class="github-icon"></i>
                         <span class="text">Edit page</span>
@@ -49,6 +53,10 @@
                     {{page_title_with_h1}}
                     {{page_content}}
 
+                    <div class="navigation-links _bottom" data-swiftype-index="false">
+                        {% if page.previous.url %}<a class="navigation-links__prev" href="{{page.previous.url}}">{{page.previous.title}}</a>{% endif %}
+                        {% if page.next.url %}<a class="navigation-links__next" href="{{page.next.url}}">{{page.next.title}}</a>{% endif %}
+                    </div>
                     <div class="last-modified">
                         {{last_modified}}
                     </div>

@@ -14,7 +14,6 @@
     {% assign disqus = '' %}
     {% assign app_baseurl = site.baseurl %}
     {% capture edit_on_github_url %}https://github.com/{{ site.github_repo }}/edit/master/{{ page.path }}{% endcapture %}
-
 {% endcapture %}
 {% capture rendered_content %}{% include page.html %}{% endcapture %}
 {% capture local_style_sheet %}<link  rel="stylesheet" href="{{app_baseurl}}app/styles.css"></head>{% endcapture %}

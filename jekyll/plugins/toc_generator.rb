@@ -30,9 +30,16 @@ class TocGenerator < Jekyll::Generator
     toc_input = site.config['toc_input'] || '_SUMMARY.md'
     toc_output = site.config['toc_output'] || 'HelpTOC.json'
 
+    # Read toc_input, generate an object model, convert it to JSON and save to
+    # a Page named from toc_output
     toc_content = generate_toc(site, toc_input)
-    toc_page = TocPage.new(site, site.source, '/', toc_output, toc_content)
+    toc_page = TocPage.new(site, site.source, '/', toc_output, toc_content.to_json)
     site.pages << toc_page
+
+
+    hash = Hash.new
+    site.pages.each { |p| hash[p.path] = p }
+    populate_prev_next(hash, toc_content)
   end
 
   def generate_toc(site, toc_input)
@@ -64,7 +71,21 @@ class TocGenerator < Jekyll::Generator
       toc.delete_at(del_index)
     end
 
-    toc.to_json
+    toc
+  end
+
+  def populate_prev_next(pages, toc)
+      toc.each_with_index do |t,i|
+          p = toc[i - 1] if i > 0
+          n = toc[i + 1] if i < toc.length
+
+          this_page = pages[t[:path]]
+
+          this_page.data["previous"] = pages[p[:path]] unless p.nil?
+          this_page.data["next"] = pages[n[:path]] unless n.nil?
+
+          populate_prev_next(pages, t[:pages]) if t.key?(:pages)
+      end
   end
 
   private
@@ -109,6 +130,7 @@ class TocGenerator < Jekyll::Generator
         item[:id] = basename
         item[:title] = get_text(a.children)
         item[:url] = href
+        item[:path] = a.attr['href']
         is_external = href.start_with?('http://', 'https://', 'ftp://', '//')
         item[:is_external] = true if is_external
     end
