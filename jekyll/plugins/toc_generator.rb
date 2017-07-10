@@ -79,12 +79,14 @@ class TocGenerator < Jekyll::Generator
           p = toc[i - 1] if i > 0
           n = toc[i + 1] if i < toc.length
 
-          this_page = pages[t[:path]]
+          if t.key?(:path)
+              this_page = pages[t[:path]]
 
-          this_page.data["previous"] = pages[p[:path]] unless p.nil?
-          this_page.data["next"] = pages[n[:path]] unless n.nil?
+              this_page.data["previous"] = pages[p[:path]] unless p.nil?
+              this_page.data["next"] = pages[n[:path]] unless n.nil?
 
-          populate_prev_next(pages, t[:pages]) if t.key?(:pages)
+              populate_prev_next(pages, t[:pages]) if t.key?(:pages)
+          end
       end
   end
 
