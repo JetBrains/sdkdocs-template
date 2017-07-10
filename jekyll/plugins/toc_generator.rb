@@ -85,6 +85,9 @@ class TocGenerator < Jekyll::Generator
               this_page.data["previous"] = pages[p[:path]] unless p.nil?
               this_page.data["next"] = pages[n[:path]] unless n.nil?
 
+              raise "Page requires title for next/previous navigation: #{p[:path]}" if not p.nil? and not pages[p[:path]].data.key?("title")
+              raise "Page requires title for next/previous navigation: #{n[:path]}" if not n.nil? and not pages[n[:path]].data.key?("title")
+
               populate_prev_next(pages, t[:pages]) if t.key?(:pages)
           end
       end
