@@ -1,5 +1,6 @@
 require 'erb'
 require 'pathname'
+require 'link_checker' if ENV.has_key?('BUNDLER_VERSION')
 
 dir = Pathname.new("#{__dir__}/..").cleanpath
 relative_dir = dir.relative_path_from(Pathname.new(Dir.pwd))
@@ -65,12 +66,21 @@ task :preview => :prepare_assets do
 
 end
 
+# This is lazy. We should really be calling `bundle exec rake ...` at all times,
+# but that's a bit inconvenient. The only time we actually need to do this is
+# for link checking, because we're using a gem that bundle brings in for us
+task :requires_bundle_exec_rake do
+  raise "Run 'bundle exec rake {args}'" unless ENV.has_key?('BUNDLER_VERSION')
+end
+
 desc 'Check all links'
-task :links => :build do
+task :links => [:requires_bundle_exec_rake, :build] do
   dest = ENV['dest'] || CONFIG[:build_destination]
 
-  # It would be nice to just require 'bundler/setup' and require 'link_checker' and then
-  # `LinkChecker.new(:target => "#{dest}").check_uris`, but that requires running
-  # `bundle exec rake` rather than just `rake`. Let's keep it easy...
-  sh "bundle exec check-links #{dest}"
+  success = LinkChecker.new(:options => {
+    :exclusions => [ %r!^https?://github.com/[^/]+/[^/]+/edit/! ],
+    :no_info => true
+  }, :target => dest).check_uris
+
+  raise "Errors found in links" if success > 0
 end
