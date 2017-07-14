@@ -78,7 +78,15 @@ task :links => [:requires_bundle_exec_rake, :build] do
   dest = ENV['dest'] || CONFIG[:build_destination]
 
   success = LinkChecker.new(:options => {
-    :exclusions => [ %r!^https?://github.com/[^/]+/[^/]+/edit/! ],
+    :no_warnings => true,
+    :exclusions => [
+        %r!^https?://github.com/[^/]+/[^/]+/edit/!,
+        %r!^https?://plugins.jetbrains.com/plugins/list!,
+        %r!^https?://plugins.jetbrains.com/plugin/developers!,
+        %r!^https?://plugins.jetbrains.com/plugin/download!,
+        %r!^https?://plugins.jetbrains.com/author/me!,
+        %r!^https?://localhost:4000/intellij/sdk/docs/$!,
+    ],
     :no_info => true
   }, :target => dest).check_uris
 
