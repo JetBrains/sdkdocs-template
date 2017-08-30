@@ -1,3 +1,5 @@
+[![official JetBrains project](http://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
 # SDK Docs Template
 
 This repo is intended to make it easy to set up and manage an SDK documentation site for JetBrains products. It should be included as a submodule of the documentation repo, and is intended to hide as much of the scripting away from the documentation repo as possible.
