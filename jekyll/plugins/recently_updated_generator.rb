@@ -22,6 +22,8 @@ class RecentsPage < Jekyll::Page
 end
 
 class RecentsGenerator < Jekyll::Generator
+  # Make sure we run before the TOC generator
+  priority :high
 
   def generate(site)
     raise "Git is not installed" unless git_installed?
