@@ -138,3 +138,8 @@
 .article table {
   width: 100%;
 }
+.article hr {
+    border-color: #e0e2e3;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+}
