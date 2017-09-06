@@ -34,27 +34,41 @@ class RecentsGenerator < Jekyll::Generator
     pages_by_path = Hash.new
     site.pages.each { |p| pages_by_path[p.path] = p }
 
+    toc = site.data['toc']
+    toc_by_path = Hash.new
+    toc_by_id = Hash.new
+    toc.each { |e| handle_toc_entry(toc_by_path, toc_by_id, e) }
+
     github_repo = site.config['github_repo']
     youtrack_project = site.config['youtrack_project']
+    toc = site.data['toc']
     content = header(github_repo)
-    content << format_commits(commits, github_repo, youtrack_project, pages_by_path)
+    content << format_commits(commits, github_repo, youtrack_project, pages_by_path, toc_by_path, toc_by_id)
     #content << commits.to_s
 
     recents_page = RecentsPage.new(site, site.source, '/', recents_output, content, data)
     site.pages << recents_page
   end
 
+  def handle_toc_entry(toc_by_path, toc_by_id, entry)
+    toc_by_id[entry[:id]] = entry
+    toc_by_path[entry[:path]] = entry if entry.key?(:path)
+    if entry.key?(:pages) then
+      entry[:pages].each { |p| handle_toc_entry(toc_by_path, toc_by_id, p) }
+    end
+  end
+
   def header(github_repo)
     "See the [full changelog on GitHub](https://github.com/#{github_repo}/commits/)\n"
   end
 
-  def format_commits(commits, github_repo, youtrack_project, pages_by_path)
+  def format_commits(commits, github_repo, youtrack_project, pages_by_path, toc_by_path, toc_by_id)
     content = ''
 
     prev_date = ''
     commits.each do |c|
 
-      if c[:files].any? {|f| f[:file] != '_SUMMARY.md' && f[:file].end_with?(".md")}
+      if c[:files].any? {|f| not should_skip(f[:file]) } then
 
         date = c[:date].strftime('%-d %B %Y')
         content << "<hr>\n## #{date}\n" unless date == prev_date
@@ -66,17 +80,16 @@ class RecentsGenerator < Jekyll::Generator
         content << "\n"
         c[:files].each do |f|
           file = f[:file]
-          if file != '_SUMMARY.md' and file.end_with?('.md') then
+          if not should_skip(file) then
             case f[:type]
             when 'D'
               content << "* `#{file}` (deleted)\n"
             when 'R'
                 newfile = f[:newfile]
-                title = pages_by_path.key?(newfile) ? pages_by_path[newfile].data['title'] : newfile
-                content << "* [#{title}](/#{newfile}) (renamed from `#{file}`)\n"
+                content << format_file(newfile, pages_by_path, toc_by_path, toc_by_id)
+                content << " (renamed from `#{file}`)\n"
             else
-              title = pages_by_path.key?(file) ? pages_by_path[file].data['title'] : file
-              content << "* [#{title}](/#{file})\n"
+              content << format_file(file, pages_by_path, toc_by_path, toc_by_id) + "\n"
             end
           end
         end
@@ -87,6 +100,42 @@ class RecentsGenerator < Jekyll::Generator
     end
 
     content
+  end
+
+  def should_skip(file)
+    file == '_SUMMARY.md' or file == 'README.md' or file == 'CONTRIBUTING.md' or not file.end_with?('.md')
+  end
+
+  def format_file(file, pages_by_path, toc_by_path, toc_by_id)
+    raise "File is not a Jekyll page: #{file}" unless pages_by_path.key?(file)
+    raise "Page is not in ToC: #{file}" unless toc_by_path.key?(file)
+
+    page = pages_by_path[file]
+    title = page.data['title']
+    toc_entry = toc_by_path[file]
+    title = toc_entry[:title]
+    path = format_path(toc_entry, toc_by_id)
+
+    "* #{path} **[#{title}](/#{file})**"
+  end
+
+  def format_path(toc_entry, toc_by_id)
+    path = ""
+    parent_id = toc_entry[:parent_id]
+    if not parent_id.nil? then
+      parent_toc = toc_by_id[parent_id]
+
+      path << format_path(parent_toc, toc_by_id) if parent_toc.key?(:parent_id)
+
+      title = parent_toc[:title]
+      if parent_toc.key?(:path) then
+        path << "[#{title}](/#{parent_toc[:path]})"
+      else
+        path << title
+      end
+      path << " / "
+    end
+    path
   end
 
   def format_message(msg, github_repo, youtrack_project)
