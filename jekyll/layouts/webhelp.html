@@ -10,7 +10,12 @@
     {% assign page_content = content %}
     {% assign is_show_shortcut_switcher = 'false' %}
     {% assign current_year = 'now' | date:'%Y' %}
-    {% capture last_modified %}Last modified: {{ page.git.last_commit.commit_date | date: '%-d %B %Y' }}{% endcapture %}
+    {% if page.git %}
+        {% assign last_modified_time = page.git.last_commit.commit_date %}
+    {% else %}
+        {% assign last_modified_time = site.time %}
+    {% endif %}
+    {% capture last_modified %}Last modified: {{ last_modified_time | date: '%-d %B %Y' }}{% endcapture %}
     {% assign disqus = '' %}
     {% assign app_baseurl = site.baseurl %}
     {% capture edit_on_github_url %}https://github.com/{{ site.github_repo }}/edit/master/{{ page.path }}{% endcapture %}
