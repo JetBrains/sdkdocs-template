@@ -135,3 +135,6 @@
   padding-right: 10px;
   background-color: #FFFFCC;
 }
+.article table {
+  width: 100%;
+}
