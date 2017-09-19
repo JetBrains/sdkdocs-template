@@ -21,6 +21,21 @@
     <meta name="msapplication-wide310x150logo" content="{{app_baseurl}}mstile-310x150.png">
     <meta name="msapplication-square310x310logo" content="{{app_baseurl}}mstile-310x310.png">
     <meta name="theme-color" content="#000000">
+    <meta name="description" content="{% if page.description %}{{page.description}}{% else %}{{site.description}}{% endif %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{site.url}}{{app_baseurl}}{{page.url}}" />
+    <meta property="og:site_name" content="JetBrains {{product_name}}" />
+    <meta property="og:title" content="{{page_title}}" />
+    <meta property="og:description" content="{% if page.description %}{{page.description}}{% else %}{{site.description}}{% endif %}" />
+    <meta property="og:image" content="{{site.url}}{{app_baseurl}}jetbrains.png" />
+    <meta property="article:modified_time" content="{{last_modified_iso}}" />
+    <!-- <meta property="article:section" content="" /> 
+    <meta property="article:tag" content="" /> -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@JBPlatform" />
+    <meta name="twitter:title" content="{{page_title}}" />
+    <meta name="twitter:description" content="{% if page.description %}{{page.description}}{% else %}{{site.description}}{% endif %}" />
+    <meta name="twitter:image" content="{{site.url}}{{app_baseurl}}jetbrains.png" />
 </head>
 <body data-id="{{page_id}}">
 <div class="wrapper">

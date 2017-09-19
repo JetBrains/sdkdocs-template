@@ -16,6 +16,7 @@
         {% assign last_modified_time = site.time %}
     {% endif %}
     {% capture last_modified %}Last modified: {{ last_modified_time | date: '%-d %B %Y' }}{% endcapture %}
+    {% capture last_modified_iso %}{{ last_modified_time | date_to_xmlschema }}{% endcapture %}
     {% assign disqus = '' %}
     {% assign app_baseurl = site.baseurl %}
     {% capture edit_on_github_url %}https://github.com/{{ site.github_repo }}/edit/master/{{ page.path }}{% endcapture %}
