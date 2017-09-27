@@ -64,7 +64,8 @@ class TocGenerator < Jekyll::Generator
               this_page.data["previous"] = pages[p[:path]] unless p.nil?
               this_page.data["next"] = pages[n[:path]] unless n.nil?
 
-              raise "Unknown page: #{n.inspect}" if not n.nil? and pages[n[:path]].nil?
+              return if not n.nil? and n[:path].start_with?('http')
+              raise "unknown page: #{n.inspect}" if not n.nil? and pages[n[:path]].nil?
 
               missing_titles << p[:path] if not p.nil? and not pages[p[:path]].data.key?("title")
               missing_titles << n[:path] if not n.nil? and not pages[n[:path]].data.key?("title")

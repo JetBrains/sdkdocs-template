@@ -87,13 +87,15 @@ class TocContentBuilder
       when :a
         a = p.children[0]
         href = a.attr['href']
-        basename = href.chomp(File.extname(href)).sub(/^\//,'')
-        href = basename + '.html'
+        is_external = href.start_with?('http://', 'https://', 'ftp://', '//')
+        if not is_external then
+            basename = href.chomp(File.extname(href)).sub(/^\//,'')
+            href = basename + '.html'
+        end
         item[:id] = basename
         item[:title] = get_text(a.children)
         item[:url] = href
         item[:path] = a.attr['href']
-        is_external = href.start_with?('http://', 'https://', 'ftp://', '//')
         item[:is_external] = true if is_external
     end
 
