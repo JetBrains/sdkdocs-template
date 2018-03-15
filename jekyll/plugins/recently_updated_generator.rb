@@ -91,7 +91,8 @@ class RecentsGenerator < Jekyll::Generator
                 content << format_file(newfile, pages_by_path, toc_by_path, toc_by_id)
                 content << " (renamed from `#{file}`)\n"
             else
-              content << format_file(file, pages_by_path, toc_by_path, toc_by_id) + "\n"
+              data = format_file(file, pages_by_path, toc_by_path, toc_by_id)
+              content << data + "\n" if data
             end
           end
         end
@@ -109,7 +110,7 @@ class RecentsGenerator < Jekyll::Generator
   end
 
   def format_file(file, pages_by_path, toc_by_path, toc_by_id)
-    raise "File is not a Jekyll page: #{file}" unless pages_by_path.key?(file)
+    return nil unless pages_by_path.key?(file)
     raise "Page is not in ToC: #{file}" unless toc_by_path.key?(file)
 
     page = pages_by_path[file]
