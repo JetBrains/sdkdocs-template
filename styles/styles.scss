@@ -68,3 +68,17 @@
     }
 }
 
+@media only screen and (max-width: 900px) {
+    .panel._main {
+        .panel__content .container {
+            margin: 0 10px;
+
+            .navigation-links {
+                margin: 0;
+            }
+        }
+        .panel__header {
+            margin: 0;
+        }
+    }
+}
