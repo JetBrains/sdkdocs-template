@@ -110,7 +110,13 @@ class RecentsGenerator < Jekyll::Generator
   end
 
   def format_file(file, pages_by_path, toc_by_path, toc_by_id)
-    return nil unless pages_by_path.key?(file)
+    # Always add a redirect if moving or deleting a file. Cool URLs don't change
+    if not pages_by_path.key?(file) then
+      puts ""
+      puts "WARNING: File has been moved or deleted without adding a redirect: #{file}"
+      puts ""
+      return nil
+    end
     raise "Page is not in ToC: #{file}" unless toc_by_path.key?(file)
 
     page = pages_by_path[file]
@@ -153,7 +159,6 @@ class RecentsGenerator < Jekyll::Generator
     commits = []
     lines = %x{ git log -n50 --no-merges --name-status --pretty=format:%H%n%an%n%aD%n%s%n%b%n%n }
     lines = lines.lines
-    i = 0
     while lines.length > 0 do
       commit = {
         :hash => lines.shift.strip,
