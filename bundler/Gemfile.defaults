@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # Include this file in your Gemfile by calling eval File.read('sdkdocs-template/bundler/Gemfile.defaults')
 
 gem 'rake'
-gem 'jekyll', '~> 3.7.3'
+gem 'jekyll', '~> 3.8.5'
 
 # This version of link-checker has extra fixes to the official version.
 # Namely, it supports a version of nokogiri that installs on Windows

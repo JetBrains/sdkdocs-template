@@ -14,6 +14,11 @@ end
 desc 'Bootstraps the build environment with bundler. Only needed to run once.'
 task :bootstrap do
   RakeFileUtils.cp 'sdkdocs-template/bundler/Gemfile.template', 'Gemfile' unless File.exists?('Gemfile')
+  # On Mac, `brew install ruby` installs a version of bundler, that isn't the latest version and isn't
+  # listed as a gem (I don't know if this is part of ruby, part of rubygems, or a quirk of the Homebrew
+  # installer for ruby). This `gem install` command might prompt to replace the binaries for the existing
+  # version
+  puts 'If on Mac, select yes to override existing binaries. This is bundler being updated from a default Homebrew install'
   sh "gem install bundler && bundle install --path ~/.bundles/sdkdocs-template/_vendor/bundle"
 end
 
