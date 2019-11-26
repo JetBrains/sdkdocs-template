@@ -88,8 +88,17 @@ class RecentsGenerator < Jekyll::Generator
               content << "* `#{file}` (deleted)\n"
             when 'R'
                 newfile = f[:newfile]
-                content << format_file(newfile, pages_by_path, toc_by_path, toc_by_id)
-                content << " (renamed from `#{file}`)\n"
+                data = format_file(newfile, pages_by_path, toc_by_path, toc_by_id)
+                if data then
+                  content << data + " (renamed from `#{file}`)\n"
+                else
+                  if pages_by_path.key?(file) then
+                    data = format_file(file, pages_by_path, toc_by_path, toc_by_id)
+                    content << data + " (renamed from `#{newfile}`)\n" if data
+                  else
+                    content << "* (Renamed `#{file}` to `#{newfile}`. Neither file exists now)\n"
+                  end
+                end
             else
               data = format_file(file, pages_by_path, toc_by_path, toc_by_id)
               content << data + "\n" if data
