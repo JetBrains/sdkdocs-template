@@ -113,7 +113,7 @@ module Kramdown
 
         href = @options[:baseurl] + href[1, href.length - 1] if href.start_with?('/') and !href.start_with?('//')
         uri = URI(href)
-        uri.path = uri.path.chomp(File.extname(uri.path)) + '.html' if File.extname(uri.path) == '.md' and !is_external
+        uri.path = uri.path.chomp(File.extname(uri.path)) + '.html' if !uri.path.nil? and File.extname(uri.path) == '.md' and !is_external
         attr['href'] = uri.to_s
         attr['target'] = '_blank' if is_external
 
