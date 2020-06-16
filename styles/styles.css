@@ -143,3 +143,15 @@
     border-style: solid;
     border-width: 1px 0px 0px 0px;
 }
+
+@media only screen and (max-width: 900px) {
+  .panel._main .panel__content .container {
+    margin: 0 10px;
+  }
+  .panel._main .panel__content .container .navigation-links {
+    margin: 0;
+  }
+  .panel._main .panel__header {
+    margin: 0;
+  }
+}
